@@ -23,7 +23,7 @@ CONFIG = {
     "system_address": "udpin://0.0.0.0:14550",
 
     # Flight
-    "takeoff_altitude_m": 1.0,
+    "takeoff_altitude_m": 1.5,
     "min_altitude_m": 1.0,
 
     # Camera / model
@@ -48,11 +48,11 @@ CONFIG = {
     # Limits
     "yaw_rate_max_deg_s": 30.0,
     "vz_max_m_s": 0.2,
-    "forward_speed_max_m_s": 0.0, 
+    "forward_speed_max_m_s": 1.0, 
 
     # Approach logic
     "centered_threshold": 0.15,   
-    "arrive_bbox_frac": 0.20, 
+    "arrive_bbox_frac": 0.10, 
 
     # Search behaviour
     "search_yaw_rate_deg_s": 20.0,
@@ -482,6 +482,7 @@ async def run():
     drone = System()
     status_task = None
     tel = None
+    connected = False
     try:
         await drone.connect(system_address=cfg["system_address"])
 
@@ -494,6 +495,7 @@ async def run():
         try:
             await asyncio.wait_for(_wait_connected(), cfg["telemetry_timeout_s"])
             print("Connected")
+            connected = True
         except asyncio.TimeoutError:
             print("No connection")
             sys.exit(1)
@@ -604,8 +606,9 @@ async def run():
     except (KeyboardInterrupt, asyncio.CancelledError):
         print("Interrupted (Ctrl-C) - landing, disarming and closing recording...")
     finally:
-        await stop_offboard_and_land(drone)
-        await safe_disarm(drone)
+        if connected:
+            await stop_offboard_and_land(drone)
+            await safe_disarm(drone)
         detector.stop()
         detector.join(timeout=5.0)
         if detector.is_alive():
@@ -614,9 +617,6 @@ async def run():
             tel.stop()
         if status_task is not None:
             status_task.cancel()
-
-        tel.stop()
-        status_task.cancel()
 
     print("Done.")
 
