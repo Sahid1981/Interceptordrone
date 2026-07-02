@@ -2,7 +2,7 @@ import time
 from zenmav.core import Zenmav
 
 def main():
-    drone = Zenmav(ip="/dev/ttyACM0") 
+    drone = Zenmav(ip="/dev/ttyTHS1") 
     
     # Arm and set mode
     drone.arm()
