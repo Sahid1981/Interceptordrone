@@ -1,0 +1,31 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build C++ Drone Controller",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-std=c++17",
+                "-o",
+                "${workspaceFolder}/Cpp/build/drone_controller",
+                "${workspaceFolder}/Cpp/src/main.cpp",
+                "-lstdc++"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"]
+        },
+        {
+            "label": "Run YOLO Test",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "${workspaceFolder}/Python/yolo_test.py"
+            ],
+            "group": "test"
+        }
+    ]
+ }
