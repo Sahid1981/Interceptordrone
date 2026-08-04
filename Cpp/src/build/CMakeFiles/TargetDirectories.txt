@@ -1,0 +1,3 @@
+C:/Users/sipil/Desktop/Droneprojekti/Cpp/src/build/CMakeFiles/balloon_detect.dir
+C:/Users/sipil/Desktop/Droneprojekti/Cpp/src/build/CMakeFiles/edit_cache.dir
+C:/Users/sipil/Desktop/Droneprojekti/Cpp/src/build/CMakeFiles/rebuild_cache.dir

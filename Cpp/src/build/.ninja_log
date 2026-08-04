@@ -1,0 +1,14 @@
+# ninja log v7
+20	1834	8067233223193704	CMakeFiles/balloon_detect.dir/src/Balloon_detection.cpp.obj	d8d50cac88900d6f
+1836	2135	8067233241394751	balloon_detect.exe	bc21bdaa1b078ef1
+4	20	8067233222726866	clean	7cad43144eea5c8
+6	7861	8067719306867179	CMakeFiles/opencv_test.dir/src/test.cpp.obj	978eadc7212aab15
+7861	9430	8067719385430706	opencv_test.exe	4500d1c7c4dd91a2
+3	305	8067723643694512	build.ninja	9aeb907be99cae53
+3	305	8067723643619355	C:/Users/sipil/Desktop/Droneprojekti/Cpp/src/build/cmake_install.cmake	9aeb907be99cae53
+35	424	8067720504656155	CMakeFiles/opencv_test2.dir/src/test2.cpp.obj	7c97daab45ab102b
+426	698	8067720508560693	opencv_test2.exe	99d7067e36ffd2a4
+92	9065	8070411522510351	CMakeFiles/balloon_detect.dir/src/Balloon_detection.cpp.obj	d8d50cac88900d6f
+9067	10718	8070411612251908	balloon_detect.exe	bc21bdaa1b078ef1
+86	6580	8075543926467913	CMakeFiles/balloon_detect.dir/src/Balloon_detection.cpp.obj	d8d50cac88900d6f
+6582	8067	8075543991412156	balloon_detect.exe	bc21bdaa1b078ef1
