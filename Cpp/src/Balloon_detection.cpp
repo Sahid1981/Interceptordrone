@@ -1,3 +1,6 @@
+/* This is the V1 for detecting an object and using a kalman filter to predict its position. As of right now writing this comment, there is a compatability issue with
+the code so this has been left like this to wait incase the issue is resolved */
+
 #include <opencv2/dnn.hpp>
 #include <opencv2/opencv.hpp>
 #include <iostream>
@@ -15,7 +18,7 @@ int main() {
 
     //lataa mallin
     //here you put your model path as well
-    cv::dnn::Net net = cv::dnn::readNetFromONNX("");
+    cv::dnn::Net net = cv::dnn::readNetFromONNX("/path/to/your/model.onnx");
     if (net.empty()) {
         std::cerr << "Error: Could not load the ONNX model." << std::endl;
         return -1;
