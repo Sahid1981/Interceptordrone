@@ -7,6 +7,9 @@ import cv2
 
 model = YOLO("C:\\Users\\sipil\\Desktop\\Droneprojekti\\best.pt")
 area_history = deque(maxlen=30)
+Frame_boxes = []
+Confidences = []
+
 
 cap = cv2.VideoCapture(0)
 
@@ -33,8 +36,8 @@ while True:
     if len(results[0].boxes) == 0:
         print("No detection")
         frames_without_detections += 1
-        if frames_without_detections >= 50:
-            print("No detection for 50 frames")
+        ##if frames_without_detections >= 50:
+           ## print("No detection for 50 frames")
     else:
         Frame_boxes.append(results[0].boxes.xywh[0].tolist())
         Confidences.append(results[0].boxes.conf[0].item())
