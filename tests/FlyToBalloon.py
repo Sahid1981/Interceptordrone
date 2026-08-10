@@ -132,9 +132,9 @@ class MjpegServer:
             def log_message(self, *args):
                 pass 
 
-        self._server = ThreadingHTTPServer(("0.0.0.0", self.port), Handler)
+        self._server = ThreadingHTTPServer(("10.42.0.1", self.port), Handler)
         threading.Thread(target=self._server.serve_forever, daemon=True).start()
-        print(f"-- Debug stream at http://0.0.0.0:{self.port}")
+        print(f"-- Debug stream at http://10.42.0.1:{self.port}")
 
     def stop(self):
         if self._server:
