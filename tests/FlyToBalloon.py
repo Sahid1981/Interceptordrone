@@ -1,3 +1,5 @@
+""" FlyToBalloon version 2.2
+    Added Search function and fixed some errors and bugs"""
 
 import asyncio
 import sys
@@ -53,7 +55,7 @@ CONFIG = {
     "arrive_bbox_frac": 0.20, 
 
     # Search behaviour
-    "search_yawn_rate_deg_s": 20.0,
+    "search_yaw_rate_deg_s": 20.0,
     "detect_confirm_frames": 3,
     "settle_cycles": 3,
     "search_timeout_s": 45.0,
@@ -431,33 +433,30 @@ async def approach_balloon(drone, detector, tel, cfg):
                     await send(0.0, 0.0, 0.0)
                     return "arrived"
 
-            yaw_rate = clamp(cfg["kp_yaw_deg_s"] * det["x_err"],
+                yaw_rate = clamp(cfg["kp_yaw_deg_s"] * det["x_err"],
                              cfg["yaw_rate_max_deg_s"])
-            vz = clamp(cfg["kp_vz_m_s"] * det["y_err"], cfg["vz_max_m_s"])
+                vz = clamp(cfg["kp_vz_m_s"] * det["y_err"], cfg["vz_max_m_s"])
 
-            if (tel.rel_alt_m is not None and tel.rel_alt_m <= cfg["min_altitude_m"] and vz > 0):
-                vz = 0.0
+                if (tel.rel_alt_m is not None and tel.rel_alt_m <= cfg["min_altitude_m"] and vz > 0):
+                    vz = 0.0
 
-            centered = abs(det["x_err"]) < cfg["centered_threshold"]
-            forward = cfg["forward_speed_max_m_s"] if centered else 0.0
+                centered = abs(det["x_err"]) < cfg["centered_threshold"]
+                forward = cfg["forward_speed_max_m_s"] if centered else 0.0
 
-            alt_txt = ("--" if tel.rel_alt_m is None else f"{tel.rel_alt_m:.1f}")
-            print(f"   x_err={det['x_err']:+.2f} y_err={det['y_err']:+.2f} "
-                  f"bbox={det['bbox_frac']:.2f} -> fwd={forward:.2f} "
-                  f"yaw={yaw_rate:+.1f} vz={vz:+.2f}")
-            await send(forward, vz, yaw_rate)
+                alt_txt = ("--" if tel.rel_alt_m is None else f"{tel.rel_alt_m:.1f}")
+                print(f"   x_err={det['x_err']:+.2f} y_err={det['y_err']:+.2f} "
+                    f"bbox={det['bbox_frac']:.2f} -> fwd={forward:.2f} "
+                    f"yaw={yaw_rate:+.1f} vz={vz:+.2f}")
+                await send(forward, vz, yaw_rate)
 
-        else:
-            if now - last_seen > cfg["track_lost_s"]:
-                if det is not None and det["x_err"] < 0:
-                    search_dir = -1.0
-                else:
-                    search_dir = 1.0
+            elif now - last_seen > cfg["track_lost_s"]: 
                 print("Balloon lost, back to SEARCH")
                 state = "SEARCH"
                 search_started = now
                 swept_deg = 0.0
                 prev_yaw = tel.yaw_deg
+                await send(0.0, 0.0, 0.0)
+                
             else:
                 await send(0.0, 0.0, 0.0)
 
@@ -591,7 +590,7 @@ async def run():
             sys.exit(1)
 
         
-        result = await approach_balloon(drone, detector, cfg)
+        result = await approach_balloon(drone, detector, tel, cfg)
         print(f"-- Approach finished: {result}")
         if result == "arrived":
             print("Hovering at balloon for 3 seconds...")
