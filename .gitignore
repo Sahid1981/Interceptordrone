@@ -1,5 +1,10 @@
+*.pt
+*.onnx
+*.engine
+runs/
 build/
-Cpp/build/
-records/
+**/build/
+*.pdb
 __pycache__/
-
+records/
+*.mp4
